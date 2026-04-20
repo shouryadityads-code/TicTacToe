@@ -1,38 +1,28 @@
-import java.util.Random;
+import java.util.Scanner;
 
 public class TicTacToe {
 
-    static boolean isHumanTurn;
-    static char humanSymbol;
-    static char computerSymbol;
+
     public static void main(String[] args) {
-        tossAndAssignSymbols();
-        displayTossResult();
+        int slot = getUserSlot();
+        System.out.println("Slot entered: " + slot);
     }
 
-    static void tossAndAssignSymbols() {
-        Random r1 = new Random();
-        int r2 = r1.nextInt(2);
-        if(r2 == 0) {
-            humanSymbol = 'X';
-            computerSymbol = 'O';
-            isHumanTurn = true;
-        }
-        else {
-            humanSymbol = 'O';
-            computerSymbol = 'X';
-            isHumanTurn = false;
-        }
-    }
+    static int getUserSlot() {
+        Scanner sc = new Scanner(System.in);
+        int slot;
 
-    static void displayTossResult() {
-        if (isHumanTurn) {
-            System.out.println("Human won the toss and will play first.");
-        } else {
-            System.out.println("Computer won the toss and will play first.");
+        System.out.print("Enter a slot number (1-9): ");
+        slot = sc.nextInt();
+
+        // Basic validation
+        while (slot < 1 || slot > 9) {
+            System.out.print("Invalid input! Enter a number between 1 and 9: ");
+            slot = sc.nextInt();
         }
 
-        System.out.println("Human Symbol: " + humanSymbol);
-        System.out.println("Computer Symbol: " + computerSymbol);
+        return slot;
     }
+
+
 }
