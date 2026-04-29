@@ -1,12 +1,26 @@
 import java.util.Scanner;
 import java.util.Random;
 
+/**
+ * TicTacToe
+ * UC1–UC9 Combined Implementation
+ * Features:
+ * - Board initialization & display
+ * - Toss system (assign symbols)
+ * - User input (slot-based)
+ * - Move validation & placement
+ * - Computer random move
+ * - Continuous game loop
+ * - Win detection (symbol-based)
+ * - Draw detection
+ */
+
 public class TicTacToe {
 
     // UC1: Board
     static char[][] board = new char[3][3];
 
-    // UC2: Toss variables
+    // UC2: Game setup
     static boolean isHumanTurn;
     static char humanSymbol;
     static char computerSymbol;
@@ -26,10 +40,9 @@ public class TicTacToe {
         tossAndAssignSymbols();
         displayTossResult();
 
-        // Show board
         printBoard();
 
-        // UC8: Continuous Loop
+        // UC8: Continuous Game Loop
         while (!gameOver) {
 
             if (isHumanTurn) {
@@ -42,25 +55,27 @@ public class TicTacToe {
 
             printBoard();
 
-            // UC8: Win check (added)
-            if (checkWin()) {
-                if (isHumanTurn) {
-                    System.out.println("Human Wins!");
-                } else {
-                    System.out.println("Computer Wins!");
-                }
+            // UC9: Win check (symbol-based)
+            if (hasWon(humanSymbol)) {
+                System.out.println("🎉 Human Wins!");
                 gameOver = true;
                 break;
             }
 
-            // UC8: Draw check (added)
+            if (hasWon(computerSymbol)) {
+                System.out.println("🤖 Computer Wins!");
+                gameOver = true;
+                break;
+            }
+
+            // Draw check
             if (checkDraw()) {
                 System.out.println("It's a Draw!");
                 gameOver = true;
                 break;
             }
 
-            // UC8: Switch turn
+            // Switch turn
             isHumanTurn = !isHumanTurn;
         }
 
@@ -183,32 +198,36 @@ public class TicTacToe {
         }
     }
 
-    // ---------------- UC8 ADDITIONS ----------------
-    static boolean checkWin() {
+    // ---------------- UC9 ----------------
+    static boolean hasWon(char symbol) {
 
-        // Rows & Columns
+        // Rows
         for (int i = 0; i < 3; i++) {
-            if (board[i][0] != '-' &&
-                board[i][0] == board[i][1] &&
-                board[i][1] == board[i][2]) return true;
+            if (board[i][0] == symbol &&
+                board[i][1] == symbol &&
+                board[i][2] == symbol) return true;
+        }
 
-            if (board[0][i] != '-' &&
-                board[0][i] == board[1][i] &&
-                board[1][i] == board[2][i]) return true;
+        // Columns
+        for (int i = 0; i < 3; i++) {
+            if (board[0][i] == symbol &&
+                board[1][i] == symbol &&
+                board[2][i] == symbol) return true;
         }
 
         // Diagonals
-        if (board[0][0] != '-' &&
-            board[0][0] == board[1][1] &&
-            board[1][1] == board[2][2]) return true;
+        if (board[0][0] == symbol &&
+            board[1][1] == symbol &&
+            board[2][2] == symbol) return true;
 
-        if (board[0][2] != '-' &&
-            board[0][2] == board[1][1] &&
-            board[1][1] == board[2][0]) return true;
+        if (board[0][2] == symbol &&
+            board[1][1] == symbol &&
+            board[2][0] == symbol) return true;
 
         return false;
     }
 
+    // Draw check
     static boolean checkDraw() {
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
